@@ -7,3 +7,23 @@ on:
 permissions:
   actions: write
   contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+  
+build:
+  name: 🐳 Build
+  if:
+      ${{ (github.ref == 'refs/heads/main') &&
+      github.event_name == 'push' }}
+  runs-on: ubuntu-latest
+  steps:
+    - name: ⬇️ Checkout repo
+      uses: actions/checkout@v4
+    - name: 🚀 Deploy production
+      uses: superfly/flyctl-actions/setup-flyctl@master
+      run: flyctl deploy --remote-only --build-arg COMMIT_SHA={{github.sha}}
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+      
