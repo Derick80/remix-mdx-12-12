@@ -36,7 +36,7 @@ export function init() {
  */
 export function getEnv() {
   return {
-    MODE: process.env.NODE_ENV
+    NODE_ENV: process.env.NODE_ENV
   }
 }
 

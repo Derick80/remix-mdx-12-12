@@ -14,6 +14,7 @@ import { init, getEnv } from './server/env.server';
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
 ];
+
 init();
 global.ENV = getEnv()
 
